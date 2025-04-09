@@ -57,7 +57,7 @@ export class UsersService {
     });
 
     const { password, ...userWithoutPassword } = userData;
-    return res.status(HttpStatus.OK).json({ message: 'Login successful', success: true, userWithoutPassword })
+    return res.status(HttpStatus.OK).json({ message: 'Login successful', success: true, loggedInUser: userWithoutPassword })
   }
 
   async logout(res: Response) {

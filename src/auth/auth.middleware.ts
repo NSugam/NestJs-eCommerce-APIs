@@ -24,15 +24,14 @@ export class AuthMiddleware implements NestMiddleware {
 
         const ADMIN_ROUTES = [
             "user/all",
-            "product/add",
-            "permissions"
+            "product/add"
         ]
 
         const route = req.originalUrl.replace(/^\/api\//, "").split("?")[0];
-        if (PUBLIC_ROUTES.includes(route.toString())) return next();
+        // if (PUBLIC_ROUTES.includes(route.toString())) return next();
 
         try {
-            const token = req.cookies.NestJS_test_;
+            const token = req.cookies.NestJS_test_
             if (!token) return res.status(401).json({
                 message: "Please Login to Continue",
                 statusCode: HttpStatus.UNAUTHORIZED,
@@ -40,11 +39,11 @@ export class AuthMiddleware implements NestMiddleware {
             })
 
             const JWT_SECRET = this.configService.get('JWT_SECRET');
-            const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+            const decoded = jwt.verify(token, JWT_SECRET) as { userId: string }
 
             const user = await this.userEntity.findOne({
                 where: { id: decoded.userId },
-                select: ["username", "email", "phone", "role"]
+                select: ["id", "username", "email", "phone", "role"]
             });
 
             if (!user) return res.status(401).json({

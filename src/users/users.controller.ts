@@ -35,12 +35,12 @@ export class UsersController {
 
   @Get(':username')//GET /user/username_here
   findByUsername(@Param('username') username: string) {
-    return this.usersService.findByUsername(username);
+    return this.usersService.findByUsername(username)
   }
 
   @Patch(':username')// PATCH /user/username_here
   update(@Param('username') username: string, @Body() updateDetails: UpdateUserDto) {
-    return this.usersService.update(username, updateDetails);
+    return this.usersService.update(username, updateDetails)
   }
 
   @Delete(':username')// DELETE /users/username_here
