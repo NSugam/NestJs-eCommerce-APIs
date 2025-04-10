@@ -51,13 +51,18 @@ export class UsersService {
 
     res.cookie('NestJS_test_', token, {
       httpOnly: true,
-      secure: false, // true in production with HTTPS
+      secure: true, // true for swagger and production in https
       sameSite: 'none',
-      maxAge: 60 * 60 * 1000, // 1 hour
+      maxAge: 60 * 60 * 1000, // 1 hr
     });
 
     const { password, ...userWithoutPassword } = userData;
-    return res.status(HttpStatus.OK).json({ message: 'Login successful', success: true, loggedInUser: userWithoutPassword })
+    return res.status(HttpStatus.OK).json({
+      message: 'Login successful',
+      success: true,
+      loggedInUser: userWithoutPassword,
+      expiryTime: new Date(Date.now() + 60 * 60 * 1000).toISOString()
+    });
   }
 
   async logout(res: Response) {
@@ -73,7 +78,7 @@ export class UsersService {
       select: ['username', 'email', 'phone', 'role']
     })
 
-    return { message: 'All User Data', statusCode: HttpStatus.OK, success: true, user }
+    return { message: 'All User Data', statusCode: HttpStatus.OK, success: true, roleFilter: role, user }
   }
 
   async findByUsername(username: string) {
@@ -106,9 +111,9 @@ export class UsersService {
   }
 
   async deleteByUsername(username: string) {
-    let user = await this.userEntity.delete(username)
+    let user = await this.userEntity.delete({ username: username })
     if (!user) throw new NotFoundException(`User with username ${username} not found`);
 
-    return { message: "User Deleted Successfully", statusCode: HttpStatus.OK, success: true, user }
+    return { message: `User: ${username} Deleted Successfully`, statusCode: HttpStatus.OK, success: true }
   }
 }

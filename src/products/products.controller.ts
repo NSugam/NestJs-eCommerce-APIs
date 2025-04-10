@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('product')
 export class ProductsController {
@@ -12,7 +13,8 @@ export class ProductsController {
     return this.productsService.createProduct(productData);
   }
 
-  @Get()
+  @Get('all')
+  @ApiQuery({ name: 'title', required: false })
   findAll(@Query('title') title?: string) {
     return this.productsService.findAll(title);
   }

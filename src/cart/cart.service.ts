@@ -39,7 +39,7 @@ export class CartService {
   }
 
   async getCartItems(req: any) {
-    const userCart = await this.cartEntity.findOne({
+    const userCart = await this.cartEntity.find({
       where: {
         user: { id: req.user.id }
       },

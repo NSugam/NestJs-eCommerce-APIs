@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
+import { LoginUserDto } from './dto/login-user.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('user')
 export class UsersController {
@@ -14,8 +16,8 @@ export class UsersController {
   }
 
   @Post('login')// POST /user/login
-  login(@Body() newUser: CreateUserDto, @Res() res: Response) {
-    return this.usersService.login(newUser, res);
+  login(@Body() user: LoginUserDto, @Res() res: Response) {
+    return this.usersService.login(user, res);
   }
 
   @Post('logout')//POST /user/logout
@@ -23,6 +25,7 @@ export class UsersController {
     return this.usersService.logout(res);
   }
 
+  @ApiQuery({ name: 'role', required: false })
   @Get('all') //GET /user/all?role=user
   findAll(@Query('role') role?: "user" | "admin") {
     return this.usersService.findAll(role);
