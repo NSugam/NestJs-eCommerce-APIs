@@ -55,13 +55,24 @@ export class UsersService {
       sameSite: 'none',
       maxAge: 60 * 60 * 1000, // 1 hr
     });
+    
+    const expiryTime = new Date(Date.now() + 60 * 60 * 1000);
+    const formattedExpiryTime = expiryTime.toLocaleString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Kathmandu'
+    })
 
     const { password, ...userWithoutPassword } = userData;
     return res.status(HttpStatus.OK).json({
       message: 'Login successful',
       success: true,
       loggedInUser: userWithoutPassword,
-      expiryTime: new Date(Date.now() + 60 * 60 * 1000).toISOString()
+      expiryTime: formattedExpiryTime
     });
   }
 

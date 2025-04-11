@@ -4,15 +4,15 @@ import { Role } from "./role.enum";
 
 export class CreateUserDto {
 
-    @ApiProperty({ description: 'Unique username', example: "sugamneupane" })
+    @ApiProperty({ description: 'Unique username', example: "admin" })
     @IsString()
     username: string
 
-    @ApiProperty({ example: "sugam@gmail.com" })
+    @ApiProperty({ example: "admin@gmail.com" })
     @IsEmail()
     email: string
 
-    @ApiProperty({ example: "sugam123" })
+    @ApiProperty({ example: "admin123" })
     @IsStrongPassword()
     password: string
 

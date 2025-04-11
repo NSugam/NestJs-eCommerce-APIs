@@ -10,7 +10,10 @@ import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: '.env.local', // this loads .env.local instead of default .env
+      isGlobal: true
+    }),
     TypeOrmModule.forFeature([User]),
     DatabaseModule, UsersModule, ProductsModule, CartModule
   ],
@@ -21,11 +24,11 @@ import { CartModule } from './cart/cart.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware)
-    .exclude(
-      { path: 'user/login', method: RequestMethod.POST },
-      { path: 'user/register', method: RequestMethod.POST },
-      { path: 'product/all', method: RequestMethod.GET },
-    )
-    .forRoutes('/*path')
+      .exclude(
+        { path: 'user/login', method: RequestMethod.POST },
+        { path: 'user/register', method: RequestMethod.POST },
+        { path: 'product/all', method: RequestMethod.GET },
+      )
+      .forRoutes('/*path')
   }
 }
