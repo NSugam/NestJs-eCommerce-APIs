@@ -7,6 +7,7 @@ import { AuthMiddleware } from './auth/auth.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { CartModule } from './cart/cart.module';
+import { FileHandlerModule } from './file-handler/file-handler.module';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { CartModule } from './cart/cart.module';
       isGlobal: true
     }),
     TypeOrmModule.forFeature([User]),
-    DatabaseModule, UsersModule, ProductsModule, CartModule
+    DatabaseModule, UsersModule, ProductsModule, CartModule, FileHandlerModule
   ],
   controllers: [],
   providers: [],

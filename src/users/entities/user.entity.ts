@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ProfilePicture } from "src/file-handler/entities/profile-picture.entity";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -19,6 +20,10 @@ export class User {
 
     @Column({ nullable: false, type: 'varchar' })
     role: string;
+
+    @OneToOne(() => ProfilePicture, { cascade: true, eager: true })
+    @JoinColumn()
+    profilePicture: ProfilePicture;
 
     constructor(partial?: Partial<User>) {
         Object.assign(this, partial);
